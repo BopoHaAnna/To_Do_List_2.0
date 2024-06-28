@@ -12,7 +12,7 @@ export const App = () => {
 
 	useEffect(() => {
 		fetchTasks().then((data) => setTasks(data));
-	}, [tasks]);
+	}, []);
 	const filteredTasks = filterTasks(tasks, searchTerm); // отфильтрованный массив
 
 	const sortedTasks = sortTask(filteredTasks, sortMode);
@@ -34,7 +34,10 @@ export const App = () => {
 						/>
 					}
 				/>
-				<Route path="/task/:id" element={<TaskPage tasks={tasks} />} />
+				<Route
+					path="/task/:id"
+					element={<TaskPage tasks={tasks} setTasks={setTasks} />}
+				/>
 			</Routes>
 		</div>
 	);

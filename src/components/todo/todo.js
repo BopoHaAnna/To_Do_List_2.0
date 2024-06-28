@@ -10,7 +10,7 @@ export const Todo = ({ id, title }) => {
 	return (
 		<div className={styles.todoList} key={id} onClick={navigateToTask}>
 			<div className={styles.taskContainer}>
-				<div>{title}</div>
+				<div className={styles.taskTitle}>{title}</div>
 			</div>
 		</div>
 	);

@@ -13,6 +13,10 @@
 	border-bottom: 2px dotted grey;
 }
 
+.taskTitle {
+	flex: 1;
+	word-break: break-all;
+}
 .taskContainer {
 	display: flex;
 	justify-content: space-between;

@@ -1,8 +1,8 @@
 import { removeTask } from '../api';
 
-export const handleDeleteTask = (id, setTasks, tasks) => {
-	removeTask(id).then((removedTask) => {
-		setTasks(tasks.filter((task) => task.id !== id));
-		// setNewTask('');
+export const handleDeleteTask = (taskId, tasks) => {
+	return removeTask(taskId).then(() => {
+		const updatedTasks = tasks.filter((task) => task.id !== parseInt(taskId));
+		return updatedTasks;
 	});
 };

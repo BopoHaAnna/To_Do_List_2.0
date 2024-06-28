@@ -8,8 +8,12 @@ export const SortPanel = ({ sortMode, setSortMode }) => {
 	};
 
 	return (
-		<button type="button" className={styles.sortButton} onClick={toggleSortMode}>
-			{sortMode ? 'Отменить сортировку' : 'Сортировать А-Я'}
+		<button
+			type="button"
+			className={`${styles.sortButton} ${sortMode ? styles.sortActive : ''}`}
+			onClick={toggleSortMode}
+		>
+			⇅
 		</button>
 	);
 };
