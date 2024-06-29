@@ -1,7 +1,7 @@
 import styles from './TaskPage.module.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button } from '../../components';
+import { Button, TaskDetail, TaskEditor } from '../../components';
 import { handleDeleteTask, handleEditTask } from '../../utils';
 import { fetchTask } from '../../api';
 
@@ -51,39 +51,17 @@ export const TaskPage = () => {
 			<h1 className={styles.todoTitle}>My To Do List</h1>
 			<div className={styles.todoList} key={id}>
 				{editingTask.id === null ? (
-					<div className={styles.taskContainer}>
-						<div className={styles.taskTitle}>{task.title}</div>
-						<div className={styles.buttonContainer}>
-							<Button onClick={handleEditClick}>Изменить</Button>
-							<Button onClick={handleDelete}>Удалить</Button>
-						</div>
-					</div>
+					<TaskDetail
+						task={task}
+						handleDelete={handleDelete}
+						handleEditClick={handleEditClick}
+					/>
 				) : (
-					<div className={styles.taskContainer}>
-						<input
-							type="text"
-							value={editingTask.title}
-							onChange={(e) =>
-								setEditingTask({
-									...editingTask,
-									title: e.target.value,
-								})
-							}
-						/>
-						<div className={styles.buttonContainer}>
-							<Button onClick={handleSaveClick}>Сохранить</Button>
-							<Button
-								onClick={() =>
-									setEditingTask({
-										id: null,
-										title: '',
-									})
-								}
-							>
-								Отмена
-							</Button>
-						</div>
-					</div>
+					<TaskEditor
+						editingTask={editingTask}
+						setEditingTask={setEditingTask}
+						handleSaveClick={handleSaveClick}
+					/>
 				)}
 			</div>
 		</div>
