@@ -8,6 +8,23 @@ export const fetchTasks = () => {
 		});
 };
 
+export const fetchTask = (id) => {
+	return fetch(`${BASE_URL}/${id}`)
+		.then((response) => {
+			if (!response.ok) {
+				if (response.status === 404) {
+					return null;
+				}
+				throw new Error('Network response was not ok.');
+			}
+			return response.json();
+		})
+		.catch((error) => {
+			console.error('Ошибка:', error);
+			return null; // Возвращаем null при ошибке
+		});
+};
+
 export const addTask = (newTask) => {
 	return fetch(BASE_URL, {
 		method: 'POST',

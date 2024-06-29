@@ -1,15 +1,22 @@
 import styles from './MainPage.module.css';
 import { Todo, ControlPanel, SortPanel, SearchPanel } from '../../components';
+import { fetchTasks } from '../../api';
+import { sortTask, filterTasks } from '../../utils';
+import { useState, useEffect } from 'react';
 
-export const MainPage = ({
-	tasks,
-	setTasks,
-	sortMode,
-	setSortMode,
-	searchTerm,
-	setSearchTerm,
-	sortedTasks,
-}) => {
+export const MainPage = () => {
+	const [tasks, setTasks] = useState([]);
+	const [sortMode, setSortMode] = useState(false);
+	const [searchTerm, setSearchTerm] = useState('');
+
+	useEffect(() => {
+		fetchTasks().then((data) => setTasks(data));
+	}, []);
+
+	const filteredTasks = filterTasks(tasks, searchTerm); // отфильтрованный массив
+
+	const sortedTasks = sortTask(filteredTasks, sortMode);
+
 	return (
 		<div>
 			<SearchPanel searchTerm={searchTerm} setSearchTerm={setSearchTerm} />

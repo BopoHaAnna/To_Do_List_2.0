@@ -1,27 +1,35 @@
 import styles from './TaskPage.module.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../../components';
 import { handleDeleteTask, handleEditTask } from '../../utils';
+import { fetchTask } from '../../api';
 
-export const TaskPage = ({ tasks, setTasks }) => {
+export const TaskPage = () => {
+	const [task, setTask] = useState(null);
 	const [editingTask, setEditingTask] = useState({ id: null, title: '' });
-	const { id } = useParams();
 
+	const { id } = useParams();
 	const navigate = useNavigate();
 
-	const task = tasks.find((task) => task.id === parseInt(id));
+	useEffect(() => {
+		fetchTask(id).then((data) => {
+			if (data) {
+				setTask(data);
+			} else {
+				navigate('/404'); // Перенаправление на страницу 404, если задача не найдена
+			}
+		});
+	}, [id, navigate]);
 
 	const handleDelete = () => {
-		handleDeleteTask(task.id, tasks).then((updatedTasks) => {
-			setTasks(updatedTasks);
-			navigate('/'); // Перенаправить на главную страницу после удаления
-		});
+		handleDeleteTask(id);
+		navigate('/'); // Перенаправить на главную страницу после удаления
 	};
 
 	const handleSaveClick = () => {
-		handleEditTask(editingTask, tasks).then((updatedTasks) => {
-			setTasks(updatedTasks);
+		handleEditTask(editingTask).then(() => {
+			setTask(editingTask);
 			setEditingTask({ id: null, title: '' });
 		});
 	};
@@ -34,6 +42,9 @@ export const TaskPage = ({ tasks, setTasks }) => {
 		navigate('/');
 	};
 
+	if (!task) {
+		return;
+	}
 	return (
 		<div>
 			<Button onClick={handleGoBack}>←</Button>
